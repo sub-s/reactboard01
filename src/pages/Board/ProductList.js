@@ -30,8 +30,6 @@ function ProductList(props) {
     // error state
     const [error, setError] = useState();
 
-
-
     // 02. 페이징 처리
     // 검색과 페이지는 항상 붙어 있는다.
     // 검색 기준으로 페이징을 생성 한다.
@@ -63,8 +61,12 @@ function ProductList(props) {
         .finally(()=>{
             setIsLoading(false);
 
-        })
-    }, [searchValues.pageNum, searchValues.pageSize, searchValues.searchText, searchValues.searchType, searchValues.searchYn]); // 데이터를 무한 호출을 막기위해서 ,[] 처리
+        });
+
+        // searchValues.pageNum, searchValues.pageSize, searchValues.searchText, searchValues.searchType, searchValues.searchYn
+        // 값을 넘긴다.
+    }, [searchValues]); // 데이터를 무한 호출을 막기위해서 ,[] 처리
+
 
 
 
@@ -122,8 +124,8 @@ function ProductList(props) {
                 total={listData.total}
                 pageSize={listData.pageSize}
                 pageNum={listData.pageNum}
-                startRow={listData.startRow}
-                endRow={listData.endRow}
+                startRow={listData.navigateFirstPage}
+                endRow={listData.navigateLastPage}
                 paginate={paginate}
             />
         </>
