@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
 import styled from "styled-components";
+<<<<<<< HEAD
+=======
+// import customHook from "../Hook/Product/ProdListHook";
+import {Link} from "react-router-dom";
+>>>>>>> origin/master
 
 const PageNavigator = styled.div`
   margin-top: 20px;
