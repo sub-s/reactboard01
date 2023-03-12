@@ -13,6 +13,7 @@ const List = styled.table`
   tr{
     cursor: pointer;
       td {
+        text-align: center;
         padding: 5px;
         border-bottom: 1px solid #ccc;
         border-left:0;
@@ -30,6 +31,11 @@ function ProductList(props) {
     // error state
     const [error, setError] = useState();
 
+    const [viewCount, setViewCount] = useState({
+        viewCnt: 0,
+    });
+
+
     // 02. 페이징 처리
     // 검색과 페이지는 항상 붙어 있는다.
     // 검색 기준으로 페이징을 생성 한다.
@@ -39,13 +45,12 @@ function ProductList(props) {
         pageSize : 10, // 화면에 노출해줄 게시글 수
         searchYn : 'Y', // 검색 여부
         searchType : '', // 검색 조건
-        searchText : '' // 검색어
+        searchText : '', // 검색어
     });
 
     // 01. API 호출 영역
     useLayoutEffect(()=> {
         setIsLoading(true);
-
         axios.get('http://172.16.63.141:8080/bo/board/boardApiList',{ params: searchValues })
         .then((response)=>{
            if(response.data.code === '0000') {
@@ -60,19 +65,21 @@ function ProductList(props) {
         })
         .finally(()=>{
             setIsLoading(false);
-
         });
-
-        // searchValues.pageNum, searchValues.pageSize, searchValues.searchText, searchValues.searchType, searchValues.searchYn
+        // searchValues.pageNum,
+        // searchValues.pageSize,
+        // searchValues.searchText,
+        // searchValues.searchType,
+        // searchValues.searchYn
         // 값을 넘긴다.
     }, [searchValues]); // 데이터를 무한 호출을 막기위해서 ,[] 처리
 
-
-
-
     // 01. 리스트에서 페이지 이동
     const LinkMove = (url) => {
-        navigate(url,  /*, { state: { pageNum: 1, pageSize: 10 } */ );
+        navigate(url,
+            // {state: {}}
+        );
+
     }
 
 
@@ -97,11 +104,15 @@ function ProductList(props) {
                         <th>제목</th>
                         <th>작성자</th>
                         <th>작성일</th>
+                        <th>조회수</th>
                     </tr>
                 </thead>
                 <tbody>
-                {listData.total > 0 && listData.list ? listData.list.map((item, count)=>(
-                    <tr onClick={()=> LinkMove(`/ProductDetail/${item.brdNo}`)} key={item.brdNo}>
+                    {listData.total > 0 && listData.list ? listData.list.map((item, count)=>(
+                    <tr onClick={
+                        ()=> LinkMove(`/ProductDetail/${item.brdNo}`)}
+                        key={item.brdNo}
+                    >
                         <td>
                             {/* 전체 게시글 역순으로 번호 생성 하기 */}
                             {/* 전체 게시물 수 - (페이지당 노출 게시물 수  * ( 현재 페이지 - 1 )) - 인덱스값 */}
@@ -110,12 +121,14 @@ function ProductList(props) {
                         <td>{item.brdTitle}</td>
                         <td>{item.brdName}</td>
                         <td>{item.regDate}</td>
+
+                        <td>{item.viewCnt}</td>
                     </tr>
                     )) :
                     <tr>
-                        <td colSpan={4}>데이터가 없습니다</td>
+                        <td colSpan={5}>데이터가 없습니다</td>
                     </tr>
-                }
+                    }
                 </tbody>
             </List>
 
