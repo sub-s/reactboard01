@@ -5,6 +5,7 @@ import ProductList from "./pages/Board/ProductList";
 
 import PageNotPound from './pages/ErrorPage/PageNotPound'
 import ProductDetail from "./pages/Board/ProductDetail";
+import ProductWrite from "./pages/Board/ProductWrite";
 
 export const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
             {
                 path: '/ProductDetail/:brdNo',  // 파라미터 값을 받아 온다. :brdNo 값을 선언한다..
                 element : <ProductDetail  />
+            },
+            {
+                path: '/ProductWrite', // 게시글 작성
+                element: <ProductWrite />
             }
         ],
     },

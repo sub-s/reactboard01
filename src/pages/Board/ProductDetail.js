@@ -49,7 +49,14 @@ function ProductDetail( props, viewCnt ) {
                     <p>작성자 : {dataDetail.brdName}</p>
                     <p>조회수 : {dataDetail.viewCnt}</p>
                     <p>작성일 : {dataDetail.regDate}</p>
-                    <p>내용 : {dataDetail.brdContents}</p>
+
+                    {/*
+                        <p>내용 : {dataDetail.brdContents}</p> 로 데이터를 노출 하면
+                        에디터 Textarea 영역에 입력된 값을
+                        <div dangerouslySetInnerHTML={{ __html: dataDetail.brdContents }}></div> 변경 해주면
+                        노출 할때에 태그가 함께 보이는 현상을 막아줌
+                    */}
+                    <div dangerouslySetInnerHTML={{ __html: dataDetail.brdContents }}></div>
                 </div>
             }
         </>
