@@ -98,7 +98,13 @@ function ProductList(props) {
             // searchValues.searchYn
             // 값을 넘긴다.
         }
-    }, [searchValues]); // 데이터를 무한 호출을 막기위해서 ,[] 처리
+    }, [
+        searchValues.pageNum,
+        searchValues.pageSize,
+        searchValues.searchText,
+        searchValues.searchType,
+        searchValues.searchYn
+    ]); // 데이터를 무한 호출을 막기위해서 ,[] 처리
 
     // 01. 리스트에서 페이지 이동
     const LinkMove = (url) => {
@@ -115,6 +121,7 @@ function ProductList(props) {
             ...searchValues, //setSearchValue 의 기본 값을 ...searchValues로 받아온다.
             pageNum: pageNum, // 클릭한 정보를 가저온다.
             pageSize: pageSize, // 기본 사이즈 정보
+            searchYn : 'Y'
         });
     }
 
@@ -214,7 +221,10 @@ function ProductList(props) {
                         <td>
                             {/* 전체 게시글 역순으로 번호 생성 하기 */}
                             {/* 전체 게시물 수 - (페이지당 노출 게시물 수  * ( 현재 페이지 - 1 )) - 인덱스값 */}
-                            {listData.total - (searchValues.pageSize * (searchValues.pageNum -1 )) - count }
+                            {/*{listData.total - (searchValues.pageSize * (searchValues.pageNum -1 )) - count }*/}
+
+                            {(listData.total - (listData.pageNum - 1) * listData.pageSize) - count}
+                            {/*//${pg.total -(pg.pageNum -1) * pg.pageSize*/}
                         </td>
                         <td>{item.brdTitle}</td>
                         <td>{item.brdName}</td>

@@ -26,9 +26,10 @@ export const router = createBrowserRouter([
                 element : <ProductDetail  />
             },
             {
-                path: '/ProductWrite', // 게시글 작성
+                path: `${'/ProductWrite', '/ProductWrite/:brdNo'}`, // 게시글 작성
                 element: <ProductWrite />
-            }
+            },
+
         ],
     },
     {

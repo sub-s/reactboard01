@@ -30,14 +30,35 @@ const WriteArea = styled.div`
 
 function ProductWrite(props) {
     const API_URL = process.env.REACT_APP_API_URI;
-    // const {param} = useParams();
+    const {brdNo} = useParams();
     const navigate = useNavigate();
     // 01. 서버에 전송 할 파라미터를 셋팅 한다.
     const [values, setValues ] = useState({
+        brdNo : '',
         brdTitle : '',
         brdName : '',
         brdContents : '',
     });
+
+
+    useEffect(()=> {
+        // `${API_URL}/bo/board/boardApiList`
+        // 게시글 brdNo가 있으면 실행
+        if (brdNo > 0) {
+
+            axios.get(`${API_URL}/bo/board/boardApiView?brdNo=${brdNo}`) //?brdNo=${brdNo} 로 인자값 전달
+                .then((res) => {
+                    let data = res.data.list
+                    console.log(data, "디테일 데이터 값");
+                    setValues(data);
+                })
+                .catch((e) => {
+                    console.log('1')
+                })
+        }
+
+    }, []);
+
 
 
     // 2. onChange 이벤트가 발생할 때 useState 에 값을 새롭게 갱신한다.
@@ -49,10 +70,7 @@ function ProductWrite(props) {
         )
     }
 
-
     // 03. 전송 버튼
-
-
     function saveBtn(e) {
         // e.preventDefault();
         let error =  inputValidate(values)
@@ -102,29 +120,29 @@ function ProductWrite(props) {
         return error;
     }
 
-
-    const LinkMove = (url) => {
-        navigate(url,
-            // {state: {}}
-        );
-
-    }
+    // const LinkMove = (url) => {
+    //     navigate(url,
+    //         // {state: {}}
+    //     );
+    //
+    // }
 
 
     return (
         <WriteArea>
+            <input type={"hidden"} name={"brdNo"} value={values.brdNo} />
             <ul>
                 <li>
                     제목
-                    <input name={'brdTitle'} onChange={(e)=> txtChange(e) } />
+                    <input name={'brdTitle'} onChange={(e)=> txtChange(e) } value={values.brdTitle} />
                 </li>
                 <li>
                     작성자
-                    <input name={'brdName'} onChange={(e)=> txtChange(e) } />
+                    <input name={'brdName'} onChange={(e)=> txtChange(e) } value={values.brdName}/>
                 </li>
                 <li>
                     내용
-                    <textarea name={'brdContents'} onChange={(e)=> txtChange(e) }></textarea>
+                    <textarea name={'brdContents'} onChange={(e)=> txtChange(e) } value={values.brdContents}></textarea>
                 </li>
             </ul>
             <Btn

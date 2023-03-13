@@ -29,7 +29,7 @@ const Detail = styled.div `
     }
 `
 
-function ProductDetail( props, viewCnt ) {
+function ProductDetail( props ) {
     const API_URL = process.env.REACT_APP_API_URI;
     const navigate = useNavigate();
     const {brdNo} = useParams(); // 리스트 페이지에서 파라미터로 받은 값을 셋팅
@@ -39,43 +39,73 @@ function ProductDetail( props, viewCnt ) {
     // '' 로 빈값을 설정 해준다.
     // 데이터를 호출 할대 값이 비어 있으면 에러가 발생한다.
     const [dataDetail, setDataDetail] = useState('')
+    const [error, setError] = useState('')
     const [count, setCount] = useState(0);
+
+    // 삭제
+    const [delYn, setDelYn] = useState({
+        brdNo :'',
+        delYn : 'N'
+    })
 
     useEffect(()=>{
         // `${API_URL}/bo/board/boardApiList`
 
         axios.get(`${API_URL}/bo/board/boardApiView?brdNo=${brdNo}`) //?brdNo=${brdNo} 로 인자값 전달
             .then((res)=>{
-                let data = res.data.list
+                let data = res.data
                 console.log(data, "디테일 데이터 값");
-                setDataDetail(data)
-                setCount(data.viewCnt);
+
+                if(data.code === '0000'){
+                    setDataDetail(data.list);
+                    if(data.list === null){
+                        alert('게시물이 없습니다.')
+                        console.log('여기까지 타기는 하는 건가?')
+                        navigate('/ProductList')
+                    }
+                }
+
+
+
+
             })
             .catch((e)=>{console.log('1')})
 
 
-        // 조회수 업데이트
-        axios.post(`${API_URL}/bo/board/boardApiViewUpdateCnt?brdNo=${brdNo}`) //?brdNo=${brdNo} 로 인자값 전달
-            .then((res)=>{
-                let data = res.data.list
-                console.log(data, "디테일 데이터 값");
-                setCount(dataDetail.viewCnt + 1);
-                //setDataDetail(data)
-            })
-            .catch((e)=>{console.log('1')})
     }, []);
 
 
-    // 조회수
+    const PageMove = (url,brdNo) => {
+        if(brdNo){
+            navigate(url+'/'+brdNo,
+                // {state: {}}
+            )
+        }else {
+            navigate(url)
+        };
+    }
 
-    console.log(viewCnt , "뷰 카운터 받아오나...")
+    const PageDel = (brdNo) => {
+        if(brdNo) {
 
-
-    const PageMove = (url) => {
-        navigate(url,
-            // {state: {}}
-        );
-
+            let param = {
+                brdNo : brdNo,
+                delYn : 'Y'
+            }
+            axios.post(`${API_URL}/bo/board/boardApiDelete`, param)
+                .then((res)=>{
+                    let data = res.data
+                    console.log(data, "삭제를 눌렀을때");
+                    if(data.code === '0000') {
+                        alert(data.msg);
+                        navigate('/ProductList')
+                    }
+                })
+                .catch((error)=>{
+                    setError(error)
+                    console.log('Error')
+                });
+        }
     }
 
 
@@ -102,6 +132,14 @@ function ProductDetail( props, viewCnt ) {
             <Btn
                 btnName={'리스트'}
                 click={()=> PageMove('/ProductList')}
+            />
+            <Btn
+                btnName={'수정'}
+                click={()=> PageMove('/ProductWrite', dataDetail.brdNo)}
+            />
+            <Btn
+                btnName={'삭제'}
+                click={()=> PageDel( dataDetail.brdNo)}
             />
         </>
     );
