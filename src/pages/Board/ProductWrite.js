@@ -29,6 +29,7 @@ const WriteArea = styled.div`
 `
 
 function ProductWrite(props) {
+    const API_URL = process.env.REACT_APP_API_URI;
     // const {param} = useParams();
     const navigate = useNavigate();
     // 01. 서버에 전송 할 파라미터를 셋팅 한다.
@@ -59,7 +60,7 @@ function ProductWrite(props) {
         console.log(Object.keys(error).length , "Object.keys(error).length ")
         if(Object.keys(error).length === 0) {
             console.log('통과 여부');
-            axios.post('http://172.16.63.141:8080/bo/board/modifyBoardApi', values)
+            axios.post(`${API_URL}/bo/board/modifyBoardApi`, values)
             .then((response)=>{
                 let data = response.data
                 console.log(data.code);

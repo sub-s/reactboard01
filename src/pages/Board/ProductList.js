@@ -69,8 +69,8 @@ function ProductList(props) {
 
     // 01. API 호출 영역
     useLayoutEffect(()=> {
-        setIsLoading(true);
         if(searchValues.searchYn === 'Y'){
+            setIsLoading(true);
             axios.get(`${API_URL}/bo/board/boardApiList`,{ params: searchValues })
             .then((response)=>{
                if(response.data.code === '0000') {
@@ -85,6 +85,7 @@ function ProductList(props) {
             })
             .finally(()=>{
                 setIsLoading(false);
+
                 setSearchValues({
                     ...searchValues,
                     searchYn: 'N'
