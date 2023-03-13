@@ -5,6 +5,7 @@ import {type} from "@testing-library/user-event/dist/type";
 const Button = styled.button`
   border: 1px solid #ccc;
   padding: 15px;
+  box-sizing: border-box;
 `
 
 

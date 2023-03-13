@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import PageNavi from "../../components/PageNavi/PageNavi";
 import Btn from "../../components/Btn/Btn";
+import Loading from "../../components/Loading/Loading";
 const List = styled.table`
   width: 100%;
   border-spacing:0;
   th {
+    border-top: 1px solid #ccc;
     background: #fafafa;
-    padding: 5px;
+    padding:10px 5px 10px;
   }
   tr{
     cursor: pointer;
@@ -21,6 +23,25 @@ const List = styled.table`
         border-right: 0;
       }
   }
+`
+
+const SearchArea = styled.div`
+    text-align: right;
+    padding: 20px 0 20px;
+    input {
+      margin-right: 5px;
+      height: 47px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      
+    }
+  
+    select {
+      padding: 0 10px 0;
+      margin-right: 5px;
+      height: 47px;
+      border: 1px solid #ccc;
+    }
 `
 
 function ProductList(props) {
@@ -104,17 +125,10 @@ function ProductList(props) {
         console.log(Object.keys(error).length , "Object.keys(error).length ")
         if(Object.keys(error).length === 0) {
             console.log('통과 여부')
-
-            try{
-                setSearchValues({
-                    ...searchValues,
-                    searchYn: 'Y',
-                });
-            } catch (e){
-                console.log(e, "eeeee")
-            }
-
-
+            setSearchValues({
+                ...searchValues,
+                searchYn: 'Y',
+            });
             console.log('통과 여부:222222')
             // ProdListHook(searchValues)
             // const {isLoading, error, data} = ProdListHook(searchValues);
@@ -152,11 +166,12 @@ function ProductList(props) {
     }
     return (
         <>
-            {isLoading && <p>데이터 로딩중 입니다.</p>}
-
+            {/*데이터 호출 시 로딩 중*/}
+            {isLoading &&
+                <Loading />
+            }
             {/*검색 영역 */}
-            {/*<form>*/}
-            <div>
+            <SearchArea>
                 <select name="searchType" id="searchType" onChange={
                     (e)=>
                         comboChange(e)
@@ -168,9 +183,14 @@ function ProductList(props) {
                     <option value="all">제목+내용</option>
                 </select>
                 <input type="text" name={'searchText'} onChange={(e)=> comboChange(e) } />
-                <button type={'button'} onClick={search}>검색</button>
-            </div>
-            {/*</form>*/}
+
+                <Btn
+                    click={ search }
+                    type={'button'}
+                    btnName={'검색'}
+                 />
+
+            </SearchArea>
 
             <List>
                 <thead>
