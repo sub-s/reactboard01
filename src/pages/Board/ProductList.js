@@ -44,8 +44,10 @@ const SearchArea = styled.div`
     }
 `
 
+
 function ProductList(props) {
-   const navigate = useNavigate();
+    const API_URL = process.env.REACT_APP_API_URI;
+    const navigate = useNavigate();
     // loading state
     const [isLoading, setIsLoading] = useState(false);
     // api Return Data
@@ -69,7 +71,7 @@ function ProductList(props) {
     useLayoutEffect(()=> {
         setIsLoading(true);
         if(searchValues.searchYn === 'Y'){
-            axios.get('http://172.16.63.141:8080/bo/board/boardApiList',{ params: searchValues })
+            axios.get(`${API_URL}/bo/board/boardApiList`,{ params: searchValues })
             .then((response)=>{
                if(response.data.code === '0000') {
                    let data = response.data.list;
