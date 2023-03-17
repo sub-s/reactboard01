@@ -26,8 +26,11 @@ export const router = createBrowserRouter([
                 element : <ProductDetail  />
             },
             {
-                path: `${'/ProductWrite', '/ProductWrite/:brdNo'}`, // 게시글 작성
-                element: <ProductWrite />
+                path: '/ProductWrite', // 게시글 작성
+                element: <ProductWrite />,
+                children: [
+                     {path: ':brdNo', element: <ProductWrite/>} // 다중 주소 사용 방법
+                ]
             },
 
         ],

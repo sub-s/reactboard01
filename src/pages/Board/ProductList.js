@@ -67,9 +67,6 @@ function ProductList(props) {
         searchText : '', // 검색어
     });
 
-
-    // http://worms.synology.me:8080/bo/board/boardApiList
-
     // 01. API 호출 영역
     useLayoutEffect(()=> {
         if(searchValues.searchYn === 'Y'){
