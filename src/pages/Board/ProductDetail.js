@@ -64,16 +64,9 @@ function ProductDetail( props ) {
                         navigate('/ProductList')
                     }
                 }
-
-
-
-
             })
             .catch((e)=>{console.log('1')})
-
-
     }, []);
-
 
     const PageMove = (url,brdNo) => {
         if(brdNo){
