@@ -13,6 +13,9 @@ const Navi = styled.div`
     justify-content: flex-start;
     li {
       margin-right: 20px;
+      a {
+        color : #303437
+      }
     }
   }
 `

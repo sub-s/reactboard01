@@ -11,13 +11,18 @@ const PageNavigator = styled.div`
     li {
       margin-right: 2px;
       button {
-        display: block;
-        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 3px;
         padding: 10px;
-        border: 1px solid #ccc;
         cursor: pointer;
+        border: 0;
         &.on {
-          border: 1px solid dodgerblue;
+          background: dodgerblue;
+          color: #fff;
         }
       }
     }
@@ -39,7 +44,7 @@ function PageNavi({total, pageSize, pageNum ,paginate, startRow, endRow}) {
                         <button onClick={(e) => paginate(num, pageSize)}
                             className={pageNum === num ? "on" : null }
                         >
-                            {num}
+                            <span>{num}</span>
                         </button>
                     </li>
                 ))}
